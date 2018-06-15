@@ -193,9 +193,4 @@ class PlayersObject implements IReadWritePlayers {
     }
 
 }
-
-$playersObject = new PlayersObject();
-
-$playersObject->display(php_sapi_name() === 'cli', 'array');
-
 ?>
