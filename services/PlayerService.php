@@ -2,6 +2,8 @@
 require_once dirname(__FILE__) . "/../daos/ArrayDao.php";
 require_once dirname(__FILE__) . "/../daos/JsonDao.php";
 require_once dirname(__FILE__) . "/../daos/FileDao.php";
+require_once dirname(__FILE__) . "/../services/display/CliService.php";
+require_once dirname(__FILE__) . "/../services/display/HtmlService.php";
 
 interface IReadWritePlayers {
     function readPlayers($source, $filename = null);
@@ -18,6 +20,8 @@ class PlayersObject implements IReadWritePlayers {
     private $arrayDao;
     private $fileDao;
     private $jsonDao;
+    private $cliService;
+    private $htmlService;
 
     public function __construct() {
         //We're only using this if we're storing players as an array.
@@ -29,6 +33,9 @@ class PlayersObject implements IReadWritePlayers {
         $this->arrayDao = new ArrayDao();
         $this->fileDao = new FileDao();
         $this->jsonDao = new JsonDao();
+        
+        $this->cliService = new CliService();
+        $this->htmlService = new HtmlService();
     }
 
     /**
@@ -93,48 +100,9 @@ class PlayersObject implements IReadWritePlayers {
         $players = $this->readPlayers($source, $filename);
 
         if ($isCLI) {
-            echo "Current Players: \n";
-            foreach ($players as $player) {
-
-                echo "\tName: $player->name\n";
-                echo "\tAge: $player->age\n";
-                echo "\tSalary: $player->salary\n";
-                echo "\tJob: $player->job\n\n";
-            }
+            $this->cliService->display( $players );
         } else {
-
-            ?>
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    li {
-                        list-style-type: none;
-                        margin-bottom: 1em;
-                    }
-                    span {
-                        display: block;
-                    }
-                </style>
-            </head>
-            <body>
-            <div>
-                <span class="title">Current Players</span>
-                <ul>
-                    <?php foreach($players as $player) { ?>
-                        <li>
-                            <div>
-                                <span class="player-name">Name: <?= $player->name ?></span>
-                                <span class="player-age">Age: <?= $player->age ?></span>
-                                <span class="player-salary">Salary: <?= $player->salary ?></span>
-                                <span class="player-job">Job: <?= $player->job ?></span>
-                            </div>
-                        </li>
-                    <?php } ?>
-                </ul>
-            </body>
-            </html>
-            <?php
+            $this->htmlService->display( $players );
         }
     }
 
