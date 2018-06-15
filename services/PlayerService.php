@@ -32,7 +32,7 @@ class PlayerService implements IReadWritePlayers {
     /**
      * @param $source string Where we're retrieving the data from. 'json', 'array' or 'file'
      * @param $filename string Only used if we're reading players in 'file' mode.
-     * @return string json
+     * @return array
      */
     function readPlayers($source, $filename = null) {
         $playerData = null;
@@ -47,10 +47,6 @@ class PlayerService implements IReadWritePlayers {
             case 'file':
                 $playerData = $this->fileService->getPlayers( $filename );
                 break;
-        }
-
-        if (is_string($playerData)) {
-            $playerData = json_decode($playerData);
         }
 
         return $playerData;
