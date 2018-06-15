@@ -1,22 +1,7 @@
 <?php
-
-/*
-    Development Exercise
-
-      The following code is poorly designed and error prone. Refactor the objects below to follow a more SOLID design.
-      Keep in mind the fundamentals of MVVM/MVC and Single-responsibility when refactoring.
-
-      Further, the refactored code should be flexible enough to easily allow the addition of different display
-        methods, as well as additional read and write methods.
-
-      Feel free to add as many additional classes and interfaces as you see fit.
-
-      Note: Please create a fork of the https://github.com/BrandonLegault/exercise repository and commit your changes
-        to your fork. The goal here is not 100% correctness, but instead a glimpse into how you
-        approach refactoring/redesigning bad code. Commit often to your fork.
-
-*/
-
+require_once dirname(__FILE__) . "/../daos/ArrayDao.php";
+require_once dirname(__FILE__) . "/../daos/JsonDao.php";
+require_once dirname(__FILE__) . "/../daos/FileDao.php";
 
 interface IReadWritePlayers {
     function readPlayers($source, $filename = null);
@@ -29,6 +14,10 @@ class PlayersObject implements IReadWritePlayers {
     private $playersArray;
 
     private $playerJsonString;
+    
+    private $arrayDao;
+    private $fileDao;
+    private $jsonDao;
 
     public function __construct() {
         //We're only using this if we're storing players as an array.
@@ -36,6 +25,10 @@ class PlayersObject implements IReadWritePlayers {
 
         //We'll only use this one if we're storing players as a JSON string
         $this->playerJsonString = null;
+        
+        $this->arrayDao = new ArrayDao();
+        $this->fileDao = new FileDao();
+        $this->jsonDao = new JsonDao();
     }
 
     /**
@@ -48,13 +41,13 @@ class PlayersObject implements IReadWritePlayers {
 
         switch ($source) {
             case 'array':
-                $playerData = $this->getPlayerDataArray();
+                $playerData = $this->arrayDao->getData();
                 break;
             case 'json':
-                $playerData = $this->getPlayerDataJson();
+                $playerData = $this->jsonDao->getData();
                 break;
             case 'file':
-                $playerData = $this->getPlayerDataFromFile($filename);
+                $playerData = $this->fileDao->getData($filename);
                 break;
         }
 
@@ -93,53 +86,6 @@ class PlayersObject implements IReadWritePlayers {
                 file_put_contents($filename, json_encode($players));
                 break;
         }
-    }
-
-
-    function getPlayerDataArray() {
-
-        $players = [];
-
-        $jonas = new \stdClass();
-        $jonas->name = 'Jonas Valenciunas';
-        $jonas->age = 26;
-        $jonas->job = 'Center';
-        $jonas->salary = '4.66m';
-        $players[] = $jonas;
-
-        $kyle = new \stdClass();
-        $kyle->name = 'Kyle Lowry';
-        $kyle->age = 32;
-        $kyle->job = 'Point Guard';
-        $kyle->salary = '28.7m';
-        $players[] = $kyle;
-
-        $demar = new \stdClass();
-        $demar->name = 'Demar DeRozan';
-        $demar->age = 28;
-        $demar->job = 'Shooting Guard';
-        $demar->salary = '26.54m';
-        $players[] = $demar;
-
-        $jakob = new \stdClass();
-        $jakob->name = 'Jakob Poeltl';
-        $jakob->age = 22;
-        $jakob->job = 'Center';
-        $jakob->salary = '2.704m';
-        $players[] = $jakob;
-
-        return $players;
-
-    }
-
-    function getPlayerDataJson() {
-        $json = '[{"name":"Jonas Valenciunas","age":26,"job":"Center","salary":"4.66m"},{"name":"Kyle Lowry","age":32,"job":"Point Guard","salary":"28.7m"},{"name":"Demar DeRozan","age":28,"job":"Shooting Guard","salary":"26.54m"},{"name":"Jakob Poeltl","age":22,"job":"Center","salary":"2.704m"}]';
-        return $json;
-    }
-
-    function getPlayerDataFromFile($filename) {
-        $file = file_get_contents($filename);
-        return $file;
     }
 
     function display($isCLI, $source, $filename = null) {
