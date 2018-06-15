@@ -24,9 +24,16 @@ class FileService implements SourceInterface {
     /**
      * 
      * @param type $fileName
-     * @param type $players
+     * @param type $newPlayer
      */
-    public function writePlayers( $fileName, $players ) {
+    public function writePlayerToFile( $fileName, $newPlayer ) {
+        $storedPlayers = $this->getData($fileName);
         
+        if (!$storedPlayers) {
+            $$storedPlayers = [];
+        }
+        
+        $storedPlayers[] = $newPlayer;
+        file_put_contents( $fileName, json_encode($storedPlayers) );
     }
 }
