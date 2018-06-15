@@ -11,7 +11,7 @@ interface IReadWritePlayers {
     function display($isCLI, $course, $filename = null);
 }
 
-class PlayersObject implements IReadWritePlayers {
+class PlayerService implements IReadWritePlayers {
 
     private $playersArray;
 
@@ -76,10 +76,10 @@ class PlayersObject implements IReadWritePlayers {
             case 'json':
                 $players = [];
                 if ($this->playerJsonString) {
-                    $players = json_decode($this->playerJsonString);
+                    $players = json_decode($this->playerJsonString,true);
                 }
                 $players[] = $player;
-                $this->playerJsonString = json_encode($player);
+                $this->playerJsonString = json_encode($players);
                 break;
             case 'file':
                 $players = json_decode($this->getPlayerDataFromFile($filename));
