@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . "/data/JsonService.php";
 require_once dirname(__FILE__) . "/data/FileService.php";
 require_once dirname(__FILE__) . "/../services/display/CliService.php";
 require_once dirname(__FILE__) . "/../services/display/HtmlService.php";
+require_once dirname(__FILE__) . "/../models/factories/PlayerFactory.php";
 
 interface IReadWritePlayers {
     function readPlayers($source, $filename = null);
@@ -38,13 +39,13 @@ class PlayerService implements IReadWritePlayers {
 
         switch ($source) {
             case 'array':
-                $playerData = $this->arrayService->getData();
+                $playerData = $this->arrayService->getPlayers();
                 break;
             case 'json':
-                $playerData = $this->jsonService->getData();
+                $playerData = $this->jsonService->getPlayers();
                 break;
             case 'file':
-                $playerData = $this->fileService->getData($filename);
+                $playerData = $this->fileService->getPlayers( $filename );
                 break;
         }
 
@@ -57,11 +58,14 @@ class PlayerService implements IReadWritePlayers {
     }
     
     /**
+     * Note: remenants of the writePlayer function. For json and array it 
+     * seemed to just store state so, store state to one array instead of 
+     * two different implementations, one of which had bugs.
      * 
      * @param /stdClass $player
      */
     function addPlayerToList( $player ) {
-        $this->playersArray[] = $player;
+        $this->playersArray[] = PlayerFactory::buildFromStdClass( $player );
     }
     
     /**

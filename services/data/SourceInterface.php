@@ -8,5 +8,5 @@ interface SourceInterface {
     /**
      * 
      */
-    function getData();
+    function getPlayers();
 }

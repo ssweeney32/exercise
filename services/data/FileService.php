@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . "/SourceInterface.php";
 require_once dirname(__FILE__) . "/../../daos/FileDao.php";
+require_once dirname(__FILE__) . "/../../models/factories/PlayerFactory.php";
 
 /**
  * Class for reading / writing players from / to files.
@@ -17,8 +18,16 @@ class FileService implements SourceInterface {
      * 
      * @param type $fileName
      */
-    public function getData( $fileName = null ) {
-        return $this->fileDao->getData( $fileName );
+    public function getPlayers( $fileName = null ) {
+        $players = [];
+        
+        $data = $this->fileDao->getData( $fileName );
+        
+        foreach( $data as $player ) {
+            $players[] = PlayerFactory::buildFromStdClass( $player );
+        }
+        
+        return $players;
     }
     
     /**

@@ -31,10 +31,10 @@ class HtmlService implements DisplayInterface {
                     <?php foreach($players as $player) { ?>
                         <li>
                             <div>
-                                <span class="player-name">Name: <?= $player->name ?></span>
-                                <span class="player-age">Age: <?= $player->age ?></span>
-                                <span class="player-salary">Salary: <?= $player->salary ?></span>
-                                <span class="player-job">Job: <?= $player->job ?></span>
+                                <span class="player-name">Name: <?= $player->getName() ?></span>
+                                <span class="player-age">Age: <?= $player->getAge() ?></span>
+                                <span class="player-salary">Salary: <?= $player->getSalary() ?></span>
+                                <span class="player-job">Job: <?= $player->getJob() ?></span>
                             </div>
                         </li>
                     <?php } ?>

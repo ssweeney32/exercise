@@ -13,10 +13,10 @@ class CliService implements DisplayInterface {
         echo "Current Players: \n";
         foreach ($players as $player) {
 
-            echo "\tName: $player->name\n";
-            echo "\tAge: $player->age\n";
-            echo "\tSalary: $player->salary\n";
-            echo "\tJob: $player->job\n\n";
+            echo "\tName: " .$player->getName() . "\n";
+            echo "\tAge: " .$player->getAge() . "\n";
+            echo "\tSalary: " .$player->getSalary() . "\n";
+            echo "\tJob: " .$player->getJob() . "\n\n";
         }
     }
 }
