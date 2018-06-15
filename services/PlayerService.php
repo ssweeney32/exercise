@@ -1,7 +1,7 @@
 <?php
-require_once dirname(__FILE__) . "/../daos/ArrayDao.php";
-require_once dirname(__FILE__) . "/../daos/JsonDao.php";
-require_once dirname(__FILE__) . "/../daos/FileDao.php";
+require_once dirname(__FILE__) . "/data/ArrayService.php";
+require_once dirname(__FILE__) . "/data/JsonService.php";
+require_once dirname(__FILE__) . "/data/FileService.php";
 require_once dirname(__FILE__) . "/../services/display/CliService.php";
 require_once dirname(__FILE__) . "/../services/display/HtmlService.php";
 
@@ -17,9 +17,6 @@ class PlayersObject implements IReadWritePlayers {
 
     private $playerJsonString;
     
-    private $arrayDao;
-    private $fileDao;
-    private $jsonDao;
     private $cliService;
     private $htmlService;
 
@@ -30,9 +27,9 @@ class PlayersObject implements IReadWritePlayers {
         //We'll only use this one if we're storing players as a JSON string
         $this->playerJsonString = null;
         
-        $this->arrayDao = new ArrayDao();
-        $this->fileDao = new FileDao();
-        $this->jsonDao = new JsonDao();
+        $this->arrayService = new ArrayService();
+        $this->fileService = new FileService();
+        $this->jsonService = new JsonService();
         
         $this->cliService = new CliService();
         $this->htmlService = new HtmlService();
@@ -48,13 +45,13 @@ class PlayersObject implements IReadWritePlayers {
 
         switch ($source) {
             case 'array':
-                $playerData = $this->arrayDao->getData();
+                $playerData = $this->arrayService->getData();
                 break;
             case 'json':
-                $playerData = $this->jsonDao->getData();
+                $playerData = $this->jsonService->getData();
                 break;
             case 'file':
-                $playerData = $this->fileDao->getData($filename);
+                $playerData = $this->fileService->getData($filename);
                 break;
         }
 
@@ -107,4 +104,3 @@ class PlayersObject implements IReadWritePlayers {
     }
 
 }
-?>
