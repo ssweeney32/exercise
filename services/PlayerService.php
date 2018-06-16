@@ -25,7 +25,7 @@ class PlayerService implements IReadWritePlayers {
      * @param string $source
      * @param string $fileName
      */
-    function readAndAppendPlayersToCollection( $source, $fileName = null ) {
+    public function readAndAppendPlayersToCollection( $source, $fileName = null ) {
         $players = $this->readPlayers( $source, $fileName );
         $this->playersCollection->addPlayers( $players );
     }
@@ -36,7 +36,7 @@ class PlayerService implements IReadWritePlayers {
      * @param string $source
      * @param string $fileName
      */
-    function readPlayersToCollectionWithOverwrite( $source, $fileName = null ) {
+    public function readPlayersToCollectionWithOverwrite( $source, $fileName = null ) {
         $this->playersCollection->clearPlayers();
         $players = $this->readPlayers( $source, $fileName );
         $this->playersCollection->addPlayers( $players );
@@ -49,7 +49,7 @@ class PlayerService implements IReadWritePlayers {
      * @param $fileName string Only used if we're reading players in 'file' mode.
      * @return array
      */
-    function readPlayers($source, $fileName = null) {
+    public function readPlayers($source, $fileName = null) {
         $dataStrategy = new DataStrategy( $source );
         $playerData = $dataStrategy->getPlayers( $fileName );
         return $playerData;
@@ -62,7 +62,7 @@ class PlayerService implements IReadWritePlayers {
      * 
      * @param /stdClass $rawPlayer
      */
-    function appendPlayerToList( $rawPlayer ) {
+    public function appendPlayerToList( $rawPlayer ) {
         $player = PlayerFactory::buildFromStdClass( $rawPlayer );
         $this->playersCollection->addPlayer( $player );
     }
@@ -77,7 +77,7 @@ class PlayerService implements IReadWritePlayers {
      * @param string $fileName
      * @param /stdClass $rawPlayer
      */
-    function writePlayerToFile( $fileName, $rawPlayer ) {
+    public function writePlayerToFile( $fileName, $rawPlayer ) {
         $this->fileService->writePlayerToFile( $fileName, $rawPlayer );
     }
     
@@ -86,7 +86,7 @@ class PlayerService implements IReadWritePlayers {
      * 
      * @param string $viewType
      */
-    function display( $viewType ) {
+    public function display( $viewType ) {
         $displayStrategy = new DisplayStrategy( $viewType );
         $displayStrategy->display( $this->playersCollection->getPlayers() );
     }

@@ -16,7 +16,7 @@ class PlayerList {
      * 
      * @return array
      */
-    function getPlayers() {
+    public function getPlayers() {
         return $this->players;
     }
     
@@ -25,7 +25,7 @@ class PlayerList {
      * 
      * @param Player $player
      */
-    function addPlayer( $player ) {
+    public function addPlayer( $player ) {
         $this->players[] = $player;
     }
     
@@ -34,14 +34,14 @@ class PlayerList {
      * 
      * @param type $players
      */
-    function addPlayers ( $players ) {
+    public function addPlayers ( $players ) {
         $this->players = array_merge( $this->players, $players );
     }
     
     /**
      * Clear all players
      */
-    function clearPlayers() {
+    public function clearPlayers() {
         $this->players = [];
     }
 }

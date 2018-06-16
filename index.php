@@ -7,19 +7,19 @@ $controller = new IndexController();
 
 // test 2 - simple ready from file and diplay html
 //$file1 = "/home/sean/Projects/RateHubExercise/docs/data/playerdata.json";
-//$controller->readAndDisplay( "cli", "file", $file1 );
+//$controller->readAndDisplay( "html", "file", $file1 );
 
-// test 3 - read from json then add a new new player and display cli
+// test 3 - read from json then add a new player and display html
 /*
 $player = new \stdClass();
 $player->name = 'Test Test';
 $player->age = 100;
 $player->job = 'Center';
 $player->salary = '0.66m';
-$controller->readAddPlayerAndDisplay( "cli", "json", $player );
+$controller->readAddPlayerAndDisplay( "html", "json", $player );
 */
 
-// test 4 - add a player, display, read w overwite, display
+// test 4 - add a player, display, read w overwite, display cli
 /*
 $player = new \stdClass();
 $player->name = 'Test Test';

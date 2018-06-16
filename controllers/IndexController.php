@@ -20,6 +20,7 @@ class IndexController {
      * @param string $fileName
      */
     public function readAndDisplay( $viewType, $source, $fileName = null ) {
+        $this->playerService->clearCollection();
         $this->playerService->readPlayersToCollectionWithOverwrite( $source, $fileName );
         $this->playerService->display( $viewType );
     }
@@ -33,8 +34,9 @@ class IndexController {
      * @param string $fileName
      */
     public function readAddPlayerAndDisplay( $viewType, $source, $player, $fileName = null ) {
-        $this->playerService->readPlayersToCollectionWithOverwrite( $source, $fileName );
+        $this->playerService->clearCollection();
         $this->playerService->appendPlayerToList( $player );
+        $this->playerService->readAndAppendPlayersToCollection( $source, $fileName );
         $this->playerService->display( $viewType );
     }
     
@@ -48,6 +50,7 @@ class IndexController {
      * @param string $fileName
      */
     public function addPlayerDisplayThenReadAndDisplay( $viewType, $source, $player, $fileName = null ) {
+        $this->playerService->clearCollection();
         $this->playerService->appendPlayerToList( $player );
         $this->playerService->display( $viewType );
         $this->playerService->readPlayersToCollectionWithOverwrite( $source, $fileName );
