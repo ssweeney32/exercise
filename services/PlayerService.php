@@ -1,8 +1,6 @@
 <?php
-require_once dirname(__FILE__) . "/data/ArrayService.php";
-require_once dirname(__FILE__) . "/data/JsonService.php";
-require_once dirname(__FILE__) . "/data/FileService.php";
-require_once dirname(__FILE__) . "/../services/display/DisplayStrategy.php";
+require_once dirname(__FILE__) . "/data/DataStrategy.php";
+require_once dirname(__FILE__) . "/display/DisplayStrategy.php";
 require_once dirname(__FILE__) . "/../models/factories/PlayerFactory.php";
 
 interface IReadWritePlayers {
@@ -28,20 +26,8 @@ class PlayerService implements IReadWritePlayers {
      * @return array
      */
     function readPlayers($source, $filename = null) {
-        $playerData = null;
-
-        switch ($source) {
-            case 'array':
-                $playerData = $this->arrayService->getPlayers();
-                break;
-            case 'json':
-                $playerData = $this->jsonService->getPlayers();
-                break;
-            case 'file':
-                $playerData = $this->fileService->getPlayers( $filename );
-                break;
-        }
-
+        $dataStrategy = new DisplayStrategy( $source );
+        $playerData = $dataStrategy->getPlayers( $filename );
         return $playerData;
 
     }
