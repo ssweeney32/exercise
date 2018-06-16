@@ -1,13 +1,12 @@
 <?php
+require_once dirname(__FILE__) . "/IReadWritePlayers.php";
 require_once dirname(__FILE__) . "/data/DataStrategy.php";
 require_once dirname(__FILE__) . "/display/DisplayStrategy.php";
 require_once dirname(__FILE__) . "/../models/factories/PlayerFactory.php";
 
-interface IReadWritePlayers {
-    function readPlayers($source, $filename = null);
-    function display($viewType, $course, $filename = null);
-}
-
+/**
+ * Class for managing the reading / writing of players.
+ */
 class PlayerService implements IReadWritePlayers {
 
     private $playersArray = [];
