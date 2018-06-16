@@ -29,10 +29,15 @@ class DataStrategy {
     /**
      * 
      * @param type $fileName
+     * @return type
      */
     public function getPlayers( $fileName = null ) {
+        $players = [];
+        
         if ( $this->dataService != null ) {
-            $this->dataService->getPlayers( $fileName );
+            $players = $this->dataService->getPlayers( $fileName );
         }
+        
+        return $players;
     }
 }

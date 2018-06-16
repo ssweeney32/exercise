@@ -29,8 +29,14 @@ class HtmlService implements DisplayInterface {
                 <span class="title">Current Players</span>
                 <ul>
                     <?php
-                        foreach ( $players as $player ) { 
-                            $this->displayPlayer( $player );
+                        if ( count($players) > 0 ) {
+                            foreach ( $players as $player ) { 
+                                $this->displayPlayer( $player );
+                            }
+                        } else {
+                            ?>
+                            No players!
+                            <?php
                         }
                     ?>
                 </ul>

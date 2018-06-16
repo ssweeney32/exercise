@@ -11,8 +11,14 @@ class CliService implements DisplayInterface {
      */
     public function display ( $players ) {
         echo "Current Players: " . PHP_EOL;
-        foreach ($players as $player) {
-            $this->displayPlayer( $player );
+        if ( count($players) > 0 ) {
+            foreach ($players as $player) {
+                $this->displayPlayer( $player );
+            }
+        } else {
+            ?>
+            No players!
+            <?php
         }
     }
     

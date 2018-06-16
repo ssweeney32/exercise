@@ -10,24 +10,16 @@ interface IReadWritePlayers {
 
 class PlayerService implements IReadWritePlayers {
 
-    private $playersArray;
-
-    public function __construct() {
-        $this->playersArray = [];
-
-        $this->arrayService = new ArrayService();
-        $this->fileService = new FileService();
-        $this->jsonService = new JsonService();
-    }
+    private $playersArray = [];
 
     /**
      * @param $source string Where we're retrieving the data from. 'json', 'array' or 'file'
-     * @param $filename string Only used if we're reading players in 'file' mode.
+     * @param $fileName string Only used if we're reading players in 'file' mode.
      * @return array
      */
-    function readPlayers($source, $filename = null) {
-        $dataStrategy = new DisplayStrategy( $source );
-        $playerData = $dataStrategy->getPlayers( $filename );
+    function readPlayers($source, $fileName = null) {
+        $dataStrategy = new DataStrategy( $source );
+        $playerData = $dataStrategy->getPlayers( $fileName );
         return $playerData;
 
     }
