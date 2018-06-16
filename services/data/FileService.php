@@ -31,7 +31,7 @@ class FileService extends BaseDataService implements SourceInterface {
      * @param Player $newPlayer
      */
     public function writePlayerToFile( $fileName, $newPlayer ) {
-        $storedPlayers = $this->getData($fileName);
+        $storedPlayers = $this->fileDao->getData( $fileName );
         
         if (!$storedPlayers) {
             $$storedPlayers = [];

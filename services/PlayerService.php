@@ -1,17 +1,50 @@
 <?php
 require_once dirname(__FILE__) . "/IReadWritePlayers.php";
 require_once dirname(__FILE__) . "/data/DataStrategy.php";
+require_once dirname(__FILE__) . "/data/FileService.php";
 require_once dirname(__FILE__) . "/display/DisplayStrategy.php";
 require_once dirname(__FILE__) . "/../models/factories/PlayerFactory.php";
+require_once dirname(__FILE__) . "/../models/PlayerList.php";
 
 /**
  * Class for managing the reading / writing of players.
  */
 class PlayerService implements IReadWritePlayers {
 
-    private $playersArray = [];
+    private $playersCollection = null;
+    private $fileService = null;
+    
+    public function __construct() {
+        $this->playersCollection = new PlayerList();
+        $this->fileService = new FileService();
+    }
 
     /**
+     * Receive Player objects from a source and append them to the collection.
+     * 
+     * @param string $source
+     * @param string $fileName
+     */
+    function readAndAppendPlayersToCollection( $source, $fileName = null ) {
+        $players = $this->readPlayers( $source, $fileName );
+        $this->playersCollection->addPlayers( $players );
+    }
+    
+    /**
+     * Receive Player objects from a source and add them to the collection as a new collection.
+     * 
+     * @param string $source
+     * @param string $fileName
+     */
+    function readPlayersToCollectionWithOverwrite( $source, $fileName = null ) {
+        $this->playersCollection->clearPlayers();
+        $players = $this->readPlayers( $source, $fileName );
+        $this->playersCollection->addPlayers( $players );
+    }
+
+    /**
+     * Read and build Player objects from a provided data source.
+     * 
      * @param $source string Where we're retrieving the data from. 'json', 'array' or 'file'
      * @param $fileName string Only used if we're reading players in 'file' mode.
      * @return array
@@ -20,7 +53,6 @@ class PlayerService implements IReadWritePlayers {
         $dataStrategy = new DataStrategy( $source );
         $playerData = $dataStrategy->getPlayers( $fileName );
         return $playerData;
-
     }
     
     /**
@@ -28,46 +60,41 @@ class PlayerService implements IReadWritePlayers {
      * seemed to just store state so, store state to one array instead of 
      * two different implementations, one of which had bugs.
      * 
-     * @param /stdClass $player
+     * @param /stdClass $rawPlayer
      */
-    function addPlayerToList( $player ) {
-        $this->playersArray[] = PlayerFactory::buildFromStdClass( $player );
+    function appendPlayerToList( $rawPlayer ) {
+        $player = PlayerFactory::buildFromStdClass( $rawPlayer );
+        $this->playersCollection->addPlayer( $player );
     }
     
     /**
-     * Note: since the original write functionality was present in this file 
-     * to facilitate writing a player I kept a simple function here to 
-     * preform that. The actual functionality has been moved to FileService 
-     * and that could / should be used directly by any services that require it.
+     * Note: remenants of the writePlayer function. Since the original 
+     * write functionality was present in this file to facilitate writing a 
+     * player I kept a simple function here to preform that. The actual 
+     * functionality has been moved to FileService and that could / should 
+     * be used directly by any services that require it.
      * 
-     * @param type $fileName
-     * @param type $player
+     * @param string $fileName
+     * @param /stdClass $rawPlayer
      */
-    function writePlayerToFile( $fileName, $player ) {
-        $this->fileService->writePlayerToFile( $fileName, $player );
+    function writePlayerToFile( $fileName, $rawPlayer ) {
+        $this->fileService->writePlayerToFile( $fileName, $rawPlayer );
     }
     
     /**
-     * Given a source and a display output, fetch the data, build the 
-     * players, display them
+     * Given a set of players and a specified output, display the players collection.
      * 
-     * @param type $viewType
-     * @param type $source
-     * @param type $filename
+     * @param string $viewType
      */
-    function fetchAndDisplay($viewType, $source, $filename = null) {
-        $players = $this->readPlayers($source, $filename);
-        $this->display( $viewType, $players );
-    }
-    
-    /**
-     * Given a set of players and a spceified output, display the players.
-     * 
-     * @param type $viewType
-     * @param type $players
-     */
-    function display( $viewType, $players ) {
+    function display( $viewType ) {
         $displayStrategy = new DisplayStrategy( $viewType );
-        $displayStrategy->display( $players );
+        $displayStrategy->display( $this->playersCollection->getPlayers() );
+    }
+    
+    /**
+     * Clear the collection
+     */
+    public function clearCollection() {
+        $this->playersCollection->clearPlayers();
     }
 }
