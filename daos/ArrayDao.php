@@ -7,8 +7,9 @@ require_once "AbstractDao.php";
 class ArrayDao extends AbstractDao {
     
     /**
+     * Return data
      * 
-     * @return \stdClass
+     * @return array
      */
     public function getData() {
         $players = [];

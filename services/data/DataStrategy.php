@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . "/FileService.php";
 require_once dirname(__FILE__) . "/JsonService.php";
 
 /**
- * 
+ * Strategy for wrapping various data sources.
  */
 class DataStrategy {
     
@@ -27,9 +27,10 @@ class DataStrategy {
     }
     
     /**
+     * Fetch the players from the source that has been defined
      * 
-     * @param type $fileName
-     * @return type
+     * @param string $fileName
+     * @return array
      */
     public function getPlayers( $fileName = null ) {
         $players = [];

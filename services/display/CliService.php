@@ -8,6 +8,8 @@ class CliService implements DisplayInterface {
 
     /**
      * Display an array of players
+     * 
+     * @param array $players
      */
     public function display ( $players ) {
         echo "Current Players: " . PHP_EOL;
@@ -39,7 +41,7 @@ class CliService implements DisplayInterface {
      * 
      * @param string $label
      * @param string $value
-     * @return type
+     * @return string
      */
     private function formatLine( $label, $value ) {
         return "\t" . $label . ": " .$value . PHP_EOL;

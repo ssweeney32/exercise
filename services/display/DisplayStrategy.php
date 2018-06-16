@@ -2,6 +2,9 @@
 require_once dirname(__FILE__) . "/CliService.php";
 require_once dirname(__FILE__) . "/HtmlService.php";
 
+/**
+ * Strategy for wrapping various display options.
+ */
 class DisplayStrategy {
     
     private $viewService = null;
@@ -20,8 +23,9 @@ class DisplayStrategy {
     }
     
     /**
+     * Display the data
      * 
-     * @param type $players
+     * @param array $players
      */
     public function display( $players ) {
         if ( $this->viewService != null ) {

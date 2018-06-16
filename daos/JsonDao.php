@@ -7,6 +7,7 @@ require_once "AbstractDao.php";
 class JsonDao extends AbstractDao {
     
     /**
+     * Return data
      * 
      * @return string
      */

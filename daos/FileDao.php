@@ -7,9 +7,10 @@ require_once "AbstractDao.php";
 class FileDao extends AbstractDao {
     
     /**
+     * Return data
      * 
-     * @param type $filename
-     * @return type
+     * @param string $filename
+     * @return array
      * @throws InvalidArgumentException
      */
     public function getData( $filename = null ) {

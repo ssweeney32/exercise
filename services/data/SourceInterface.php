@@ -5,8 +5,5 @@
  */
 interface SourceInterface {
     
-    /**
-     * 
-     */
     function getPlayers();
 }
