@@ -2,8 +2,7 @@
 require_once dirname(__FILE__) . "/data/ArrayService.php";
 require_once dirname(__FILE__) . "/data/JsonService.php";
 require_once dirname(__FILE__) . "/data/FileService.php";
-require_once dirname(__FILE__) . "/../services/display/CliService.php";
-require_once dirname(__FILE__) . "/../services/display/HtmlService.php";
+require_once dirname(__FILE__) . "/../services/display/DisplayStrategy.php";
 require_once dirname(__FILE__) . "/../models/factories/PlayerFactory.php";
 
 interface IReadWritePlayers {
@@ -14,9 +13,6 @@ interface IReadWritePlayers {
 class PlayerService implements IReadWritePlayers {
 
     private $playersArray;
-    
-    private $cliService;
-    private $htmlService;
 
     public function __construct() {
         $this->playersArray = [];
@@ -24,9 +20,6 @@ class PlayerService implements IReadWritePlayers {
         $this->arrayService = new ArrayService();
         $this->fileService = new FileService();
         $this->jsonService = new JsonService();
-        
-        $this->cliService = new CliService();
-        $this->htmlService = new HtmlService();
     }
 
     /**
@@ -79,18 +72,13 @@ class PlayerService implements IReadWritePlayers {
     
     /**
      * 
-     * @param type $isCLI
+     * @param type $viewType
      * @param type $source
      * @param type $filename
      */
-    function display($isCLI, $source, $filename = null) {
-
+    function display($viewType, $source, $filename = null) {
         $players = $this->readPlayers($source, $filename);
-
-        if ($isCLI) {
-            $this->cliService->display( $players );
-        } else {
-            $this->htmlService->display( $players );
-        }
+        $displayStrategy = new DisplayStrategy( $viewType );
+        $displayStrategy->display( $players );
     }
 }
