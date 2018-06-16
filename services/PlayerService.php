@@ -48,13 +48,25 @@ class PlayerService implements IReadWritePlayers {
     }
     
     /**
+     * Given a source and a display output, fetch the data, build the 
+     * players, display them
      * 
      * @param type $viewType
      * @param type $source
      * @param type $filename
      */
-    function display($viewType, $source, $filename = null) {
+    function fetchAndDisplay($viewType, $source, $filename = null) {
         $players = $this->readPlayers($source, $filename);
+        $this->display( $viewType, $players );
+    }
+    
+    /**
+     * Given a set of players and a spceified output, display the players.
+     * 
+     * @param type $viewType
+     * @param type $players
+     */
+    function display( $viewType, $players ) {
         $displayStrategy = new DisplayStrategy( $viewType );
         $displayStrategy->display( $players );
     }
