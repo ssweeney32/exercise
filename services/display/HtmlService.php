@@ -7,7 +7,7 @@ require_once "DisplayInterface.php";
 class HtmlService implements DisplayInterface {
 
     /**
-     *
+     * Display an array of players
      */
     public function display ( $players ) {
         ?>
@@ -28,19 +28,31 @@ class HtmlService implements DisplayInterface {
             <div>
                 <span class="title">Current Players</span>
                 <ul>
-                    <?php foreach($players as $player) { ?>
-                        <li>
-                            <div>
-                                <span class="player-name">Name: <?= $player->getName() ?></span>
-                                <span class="player-age">Age: <?= $player->getAge() ?></span>
-                                <span class="player-salary">Salary: <?= $player->getSalary() ?></span>
-                                <span class="player-job">Job: <?= $player->getJob() ?></span>
-                            </div>
-                        </li>
-                    <?php } ?>
+                    <?php
+                        foreach ( $players as $player ) { 
+                            $this->displayPlayer( $player );
+                        }
+                    ?>
                 </ul>
             </body>
-            </html>
-        <?php
+            </html><?php
+    }
+    
+    /**
+     * Print a player out
+     * 
+     * @param Player $player
+     */
+    private function displayPlayer( $player ) {
+        ?>
+        <li>
+            <div>
+                <span class="player-name">Name: <?= $player->getName() ?></span>
+                <span class="player-age">Age: <?= $player->getAge() ?></span>
+                <span class="player-salary">Salary: <?= $player->getSalary() ?></span>
+                <span class="player-job">Job: <?= $player->getJob() ?></span>
+            </div>
+        </li>
+        <?php        
     }
 }
